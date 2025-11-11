@@ -6,7 +6,7 @@ data = pd.read_excel(file_path)
 
 
 #hitung jumlah wisudawan per prodi pake groupby
-jumlahPerProdi = data.groupby('Program Studi')['NIM'].count().reset_index(name='Jumlah Wisudawan')
+jumlahPerProdi = data.groupby('Program Studi')['NIM'].size().reset_index(name='Jumlah Wisudawan')
 
 def klasifikasigrade(ipk):
     if ipk >= 3.75:
@@ -34,9 +34,11 @@ def klasifikasipredikat(ipk):
 data['Grade'] = data['IPK'].apply(klasifikasigrade)
 data['Predikat'] = data['IPK'].apply(klasifikasipredikat)
 
+#menyusun urutan kolom utuk output
 data = data[["NIM","Nama Mahasiswa", "Program Studi", "IPK", "Lama Studi (Semester)", "Grade", "Predikat", "Tahun Wisuda"]]
 
 print(data.head())
+print(jumlahPerProdi)
 
 # Simpan hasil ke file baru
 data.to_excel("Rekap_Wisuda_Final.xlsx", index=False)
@@ -83,3 +85,5 @@ plt.ylabel('Rata-Rata Lama Studi (Semester)')
 plt.xticks(rotation=90)
 plt.tight_layout()
 plt.show()
+
+print(f"\nAnalisis selesai! Output saved in : Rekap_Wisuda_Final.xlsx")
